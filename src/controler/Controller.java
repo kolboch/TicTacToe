@@ -5,11 +5,14 @@ import model.FieldState;
 
 public class Controller {
 	
+	private FieldState userSign;
 	private FieldState currentMove;
 	private Board board;
+	private int movesDone;
 	
 	public Controller(){
 		board = new Board();
+		movesDone = 0;
 	}
 	
 	public void setStartingSign(FieldState sign){
@@ -27,13 +30,31 @@ public class Controller {
 		else{
 			currentMove = FieldState.CIRCLE;
 		}
+		movesDone++;
 	}
 	
-	public void checkForWinner(){
-		
+	public boolean hasGameWinner(){
+		return board.checkForWinner();
 	}
 	
 	public FieldState getBoardFieldState(int rowIndex, int columnIndex){
 		return board.getFieldState(rowIndex, columnIndex);
+	}
+	
+	public void resetGameStatus(){
+		movesDone = 0;
+		board.resetBoard();
+	}
+	
+	public int getMovesDone(){
+		return movesDone;
+	}
+	
+	public FieldState getUserSign(){
+		return userSign;
+	}
+	
+	public void setUserSign(FieldState users){
+		userSign = users;
 	}
 }

@@ -69,7 +69,8 @@ public class Controller {
 			currentMove = userSymbol;
 		}
 		else{
-			if(userSymbol == FieldState.CIRCLE){
+			userSign = userSymbol;
+			if(userSign == FieldState.CIRCLE){
 				currentMove = FieldState.CROSS;
 			}
 			else{

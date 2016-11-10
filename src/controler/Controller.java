@@ -13,6 +13,11 @@ public class Controller {
 	public Controller(){
 		board = new Board();
 		movesDone = 0;
+		currentMove = FieldState.CIRCLE;
+	}
+	
+	public void doMove(int row, int column){
+		board.setFieldState(row, column, currentMove);
 	}
 	
 	public void setStartingSign(FieldState sign){
@@ -56,5 +61,9 @@ public class Controller {
 	
 	public void setUserSign(FieldState users){
 		userSign = users;
+	}
+	
+	public boolean isEmpty(int row, int column){
+		return board.getFieldState(row, column) == FieldState.EMPTY;
 	}
 }

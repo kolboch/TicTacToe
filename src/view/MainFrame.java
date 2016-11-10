@@ -3,9 +3,11 @@ package view;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import controler.Controller;
 import model.FieldState;
+import viewListeners.BoardPanelListener;
 
 public class MainFrame extends JFrame {
 
@@ -22,19 +24,43 @@ public class MainFrame extends JFrame {
 		resultPanel = new ResultsPanel();
 		boardPanel = new BoardPanel();
 		
+		boardPanel.setBoardPanelListener(new BoardPanelListener(){
+			public void doMove(int row, int column) {
+				if(controller.isEmpty(row, column)){
+					controller.doMove(row, column);
+					updateButtonState(row, column, controller.getCurrentMoveSign());
+					if(controller.hasGameWinner()){
+						showWinMessage(controller.getCurrentMoveSign());
+						controller.resetGameStatus();
+						boardPanel.resetBoard();
+					}
+					else{
+						controller.moveDone();
+					}
+				}
+				else{
+				}
+			}
+		});
+		
 		setLayout(new BorderLayout());
 		add(resultPanel, BorderLayout.SOUTH);
 		add(boardPanel, BorderLayout.CENTER);
 	}
 	
-	public void showWinMessage(FieldState state){
+	private void showWinMessage(FieldState state){
 		String message;
 		if(state == controller.getUserSign()){
 			message = "You won!!!";
 		}
 		else{
 			message = "AI beat your ass ;(";
+			
 		}
-		//TODO JOptionPane.showMessageDialog(null, message, "The winner is...", JOptionPane.OK_OPTION, ICON_OF_WINNER_SIGN);
+		JOptionPane.showMessageDialog(null, message, "The winner is...", JOptionPane.PLAIN_MESSAGE);
+	}
+	
+	private void updateButtonState(int row, int column, FieldState state){
+		boardPanel.updateButtonState(row, column, state);
 	}
 }

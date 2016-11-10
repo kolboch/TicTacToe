@@ -29,6 +29,11 @@ public class Board {
 		}
 	}
 	
+	public boolean checkIfMoveIsWinning(int row, int column){
+		//TODO check just last move instead off whole board
+		return false;
+	}
+	
 	public boolean checkForWinner(){
 		FieldState firstState = null;
 		boolean hasWinner = true;
@@ -41,10 +46,12 @@ public class Board {
 					hasWinner = false;
 				}
 			}
+			
+			if(hasWinner && firstState != FieldState.EMPTY){
+				return hasWinner;
+			} else{ hasWinner = true;}
 		}
-		if(hasWinner && firstState != FieldState.EMPTY){
-			return hasWinner;
-		} else{ hasWinner = true;}
+		
 		
 		//checking columns
 		for(int j = 0; j < board[0].length; j++){
@@ -55,10 +62,11 @@ public class Board {
 					hasWinner = false;
 				}
 			}
+			
+			if(hasWinner && firstState != FieldState.EMPTY){
+				return hasWinner;
+			} else{ hasWinner = true;}
 		}
-		if(hasWinner && firstState != FieldState.EMPTY){
-			return hasWinner;
-		} else{ hasWinner = true;}
 		
 		// checking diagonals
 		firstState = board[0][0];
@@ -72,7 +80,7 @@ public class Board {
 		} else{ hasWinner = true;}
 		
 		firstState = board[2][0];
-		for(int i = 1, j = 1; i > 0 && hasWinner; i--, j++){
+		for(int i = 1, j = 1; i >= 0 && hasWinner; i--, j++){
 			if(board[i][j] != firstState){
 				hasWinner = false;
 			}

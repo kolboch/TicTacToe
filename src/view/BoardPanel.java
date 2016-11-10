@@ -44,7 +44,6 @@ public class BoardPanel extends JPanel {
 					public void actionPerformed(ActionEvent e){
 						if(listener != null){
 							listener.doMove(ii, jj);
-							System.out.println("I was clicked: " + ii + " " + jj);
 						}
 					}
 				});

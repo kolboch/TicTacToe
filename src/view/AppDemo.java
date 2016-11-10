@@ -12,7 +12,8 @@ public class AppDemo {
 			public void run(){
 				MainFrame frame = new MainFrame("Tic Tac Toe");
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setMinimumSize(new Dimension(400,400));
+				frame.setMinimumSize(new Dimension(600,500));
+				frame.setMaximumSize(new Dimension(600,500));
 				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 				frame.setLocation((int)(screenSize.getWidth() - frame.getWidth())/2, (int)(screenSize.getHeight() - frame.getHeight()) / 2);
 				frame.setVisible(true);

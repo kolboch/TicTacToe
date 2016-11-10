@@ -59,11 +59,22 @@ public class Controller {
 		return userSign;
 	}
 	
-	public void setUserSign(FieldState users){
-		userSign = users;
-	}
-	
 	public boolean isEmpty(int row, int column){
 		return board.getFieldState(row, column) == FieldState.EMPTY;
+	}
+	
+	public void initGame(boolean userStarts, FieldState userSymbol){
+		if(userStarts){
+			userSign = userSymbol;
+			currentMove = userSymbol;
+		}
+		else{
+			if(userSymbol == FieldState.CIRCLE){
+				currentMove = FieldState.CROSS;
+			}
+			else{
+				currentMove = FieldState.CIRCLE;
+			}
+		}
 	}
 }

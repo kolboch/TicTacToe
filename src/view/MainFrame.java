@@ -5,8 +5,10 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import AI_logic.LogicAI;
 import controler.Controller;
 import model.FieldState;
+import model.Move;
 import viewListeners.BoardPanelListener;
 import viewListeners.SettingsPanelListener;
 
@@ -18,10 +20,12 @@ public class MainFrame extends JFrame {
 	private BoardPanel boardPanel;
 	private SettingsPanel settingsPanel;
 	private Controller controller;
+	private LogicAI logicAI;
 	
 	public MainFrame(String name){
 		super(name);
 		controller = new Controller();
+		logicAI = new LogicAI();
 		
 		resultPanel = new ResultsPanel();
 		boardPanel = new BoardPanel();
@@ -34,10 +38,16 @@ public class MainFrame extends JFrame {
 				if(controller.isEmpty(row, column)){
 					controller.doMove(row, column);
 					updateButtonState(row, column, controller.getCurrentMoveSign());
+					
 					if(controller.hasGameWinner()){
 						showWinMessage(controller.getCurrentMoveSign());
+						if(controller.getCurrentMoveSign() == controller.getUserSign()){
+							resultPanel.incrementUserWinsScore();
+						}
+						else{
+							resultPanel.incrementAIWinsScore();
+						}
 						resetDataAndUpdate();
-						//TODO WHO wins AI or player? resultPanel update
 					}
 					else if(controller.getMovesDone() == 8){
 							showDrawMessage();
@@ -97,5 +107,13 @@ public class MainFrame extends JFrame {
 		controller.resetGameStatus();
 		boardPanel.resetBoard();
 		controller.initGame(settingsPanel.doesUserStarts(), settingsPanel.getUserSymbol());
+	}
+	
+	private void AImoves(Move m){
+		int row = m.getMoveRow();
+		int column = m.getMoveColumn();
+		controller.doMove(row, column);
+		updateButtonState(row, column, controller.getCurrentMoveSign());
+		controller.moveDone();
 	}
 }

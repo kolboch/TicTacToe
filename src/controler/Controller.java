@@ -78,4 +78,8 @@ public class Controller {
 			}
 		}
 	}
+	
+	public Board getBoard(){
+		return board;
+	}
 }

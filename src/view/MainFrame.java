@@ -56,6 +56,8 @@ public class MainFrame extends JFrame {
 					}
 					else{
 							controller.moveDone();
+							Move AImove = logicAI.AIgenerateMove(controller.getBoard(), controller.getMovesDone(), controller.getUserSign(), controller.getCurrentMoveSign());
+							AImoves(AImove);
 					}
 				}
 				else{
@@ -67,6 +69,10 @@ public class MainFrame extends JFrame {
 			public void whoStartChanged(boolean userStarts) {
 				if(controller.getMovesDone() == 0){
 					controller.initGame(userStarts, settingsPanel.getUserSymbol());
+					if(!userStarts){
+						Move AImove = logicAI.AIgenerateMove(controller.getBoard(), controller.getMovesDone(), controller.getUserSign(), controller.getCurrentMoveSign());
+						AImoves(AImove);
+					}
 				}
 			}
 			public void userSymbolChanged(FieldState users) {
@@ -106,7 +112,12 @@ public class MainFrame extends JFrame {
 	private void resetDataAndUpdate(){
 		controller.resetGameStatus();
 		boardPanel.resetBoard();
-		controller.initGame(settingsPanel.doesUserStarts(), settingsPanel.getUserSymbol());
+		boolean userStarts = settingsPanel.doesUserStarts();
+		controller.initGame(userStarts, settingsPanel.getUserSymbol());
+		if(!userStarts){
+			Move AImove = logicAI.AIgenerateMove(controller.getBoard(), controller.getMovesDone(), controller.getUserSign(), controller.getCurrentMoveSign());
+			AImoves(AImove);
+		}
 	}
 	
 	private void AImoves(Move m){
@@ -114,6 +125,24 @@ public class MainFrame extends JFrame {
 		int column = m.getMoveColumn();
 		controller.doMove(row, column);
 		updateButtonState(row, column, controller.getCurrentMoveSign());
-		controller.moveDone();
+		
+		if(controller.hasGameWinner()){
+			showWinMessage(controller.getCurrentMoveSign());
+			if(controller.getCurrentMoveSign() == controller.getUserSign()){
+				resultPanel.incrementUserWinsScore();
+			}
+			else{
+				resultPanel.incrementAIWinsScore();
+			}
+			resetDataAndUpdate();
+		}
+		else if(controller.getMovesDone() == 8){
+				showDrawMessage();
+				resultPanel.incrementDrawsScore();
+				resetDataAndUpdate();
+		}
+		else{
+				controller.moveDone();
+		}
 	}
 }

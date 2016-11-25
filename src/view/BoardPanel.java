@@ -63,9 +63,9 @@ public class BoardPanel extends JPanel {
 	}
 	
 	private void setImagesLocation() throws IOException{
-		emptyImage = new ImageIcon("images/empty.png");
-		circleImage = new ImageIcon("images/circle.png");
-		crossImage = new ImageIcon("images/cross.png");
+		emptyImage = new ImageIcon(getClass().getResource("/resources/empty.png"));
+		circleImage = new ImageIcon(getClass().getResource("/resources/circle.png"));
+		crossImage = new ImageIcon(getClass().getResource("/resources/cross.png"));
 	}
 	
 	public ImageIcon getCrossImageIcon(){
